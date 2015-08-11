@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define PAGE_SIZE (4 * 1024 * 1024)
+#define STEP (4 * 1024)
 
 int main(int argc, char** argv) {
     if (argc < 2) {
@@ -15,10 +16,14 @@ int main(int argc, char** argv) {
         perror("malloc");
         return 1;
     }
+    long c;
+    for (c = 0; c < PAGE_SIZE * pages; c += STEP) {
+        *((char*)p + c) = 0;
+    }
     printf("pid: %d\n", pid);
     printf("addr: %p\n", p);
     printf("size: %dkB\n", PAGE_SIZE * pages / 1024);
-    printf("sample command:\ngrep -A 1 %lx /proc/%d/smaps\n", (unsigned long)p & 0xFFFFFFFFFFFFFF00, pid);
+    printf("sample command:\ngrep -A 20 %lx /proc/%d/smaps\n", (unsigned long)p & 0xFFFFFFFFFFFFFF00, pid);
     sleep(1000);
     return 0;
 }
