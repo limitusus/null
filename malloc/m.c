@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     long c;
     for (c = 0; c < pages; c += step) {
         int idx = c * page_size;
-        printf("%ld %p\n", c, &p[idx]);
+        // printf("%ld %p\n", c, &p[idx]);
         p[idx] = 1;
         touched_pages++;
     }
